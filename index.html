@@ -42,7 +42,7 @@
 
 
 
-<a-scene mindar-image="imageTargetSrc: src/targets/targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false" >
+<a-scene mindar-image="imageTargetSrc: ./targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false" >
   <a-assets>
     <img id="card" src="src/images/8359_BG2.png" />
 
@@ -62,7 +62,7 @@
   </a-assets>
 
   <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="far: ${customFields.libVersion}; objects: .clickable" ></a-camera>
-  <a-entity id="soundPlayer" class="clickable" sound="src: #change; loop: true;" play-on-click ></a-entity>
+  <a-entity id="soundPlayer" sound="src: #change; loop: true;" play-on-click ></a-entity>
 
   <a-entity id="example-target"  mindar-image-target="targetIndex: 0" >
     <!-- Control mp4 with click -->
