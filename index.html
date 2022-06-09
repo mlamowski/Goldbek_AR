@@ -44,18 +44,18 @@
 
 <a-scene mindar-image="imageTargetSrc: ./targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false" >
   <a-assets>
-    <img id="card" src="src/images/8359_BG2.png" />
+    <img id="card" src="8359_BG2.png" />
 
     <!-- GIFS -->
-    <img id="ballon" src="src/gifs/8359_ohne_konfetti.gif" />
-    <img id="dancebear" src="src/gifs/8435.gif"  />
-    <img id="lovers" src="src/gifs/8406A.gif" />
+    <img id="ballon" src="8359_ohne_konfetti.gif" />
+    <img id="dancebear" src="8435.gif"  />
+    <img id="lovers" src="8406A.gif" />
 
     <!-- SOUNDS -->
-    <audio id="loversSound" src="src/sound/wee-sound-effect.mp3" preload="auto" ></audio>
+    <audio id="loversSound" class="clickable" src="wee-sound-effect.mp3" preload="auto" ></audio>
 
     <!-- GLTF -->
-    <a-asset-item id="confetti" src="src/models/imported_mp4_ballon_2.gltf"></a-asset-item>
+    <a-asset-item id="confetti" src="./imported_mp4_ballon_2.gltf"></a-asset-item>
 
 
 
@@ -67,7 +67,7 @@
   <a-entity id="example-target"  mindar-image-target="targetIndex: 0" >
     <!-- Control mp4 with click -->
     <a-gltf-model rotation="0 0 0 " position="0 0 0.3" src="#confetti" animation-mixer=""> </a-gltf-model>
-    <a-entity id="ballon" geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.1" material="shader:gif;src:#ballon; autoplay: false" detect-target ></a-entity>
+    <a-entity id="ballon" class="clickable geometry="primitive:plane;" scale="1 1.5 1" position="0 0 0.1" material="shader:gif;src:#ballon; autoplay: false" detect-target ></a-entity>
     <!-- SOUND STARTEN
     <a-entity id="ambientSound" sound="src: #soundWee; loop: true;" play-on-click ></a-entity>
     -->
