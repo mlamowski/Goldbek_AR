@@ -22,44 +22,6 @@
 
   <script>
 
-    AFRAME.registerComponent("detect-target", {
-      init: function() {
-        document.body.addEventListener("targetFound", e => {
-          console.log("detected!");
-          var el = this.el;
-          //el.removeAttribute('material');
-          el.setAttribute('material', {
-            shader: "gif",
-            autoplay: "true"
-          });
-          /*
-          var soundPlayer = el.getAttribute('sound');
-          console.log(soundPlayer);
-          soundPlayer.playSound();
-           */
-
-          //el.components.sound.playSound();
-          el.play();
-        });
-        document.body.addEventListener("targetLost", e => {
-          console.log("target lost!");
-          var el = this.el;
-          /*
-          var mat = el.getAttribute('id');
-          el.removeAttribute('material');
-          el.setAttribute('material', {
-            shader: "gif",
-            src: "#" + mat,
-            autoplay: "false"
-          });
-           */
-          el.pause();
-
-        });
-      }
-
-    });
-
     // clickable
     AFRAME.registerComponent("play-on-click", {
 
