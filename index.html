@@ -21,19 +21,91 @@
 
 
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const sceneEl = document.querySelector('a-scene');
-      const arSystem = sceneEl.systems["mindar-image-system"];
-      var exampleTarget = document.querySelector('#lovers');
-      console.log("Content is ready");
 
-      // arReady event triggered when ready
-      sceneEl.addEventListener("arReady", (event) => {
-        console.log("MindAR is ready");
+    AFRAME.registerComponent("detect-target", {
+      init: function() {
+        document.body.addEventListener("targetFound", e => {
+          console.log("detected!");
+          var el = this.el;
+          //el.removeAttribute('material');
+          el.setAttribute('material', {
+            shader: "gif",
+            autoplay: "true"
+          });
+          /*
+          var soundPlayer = el.getAttribute('sound');
+          console.log(soundPlayer);
+          soundPlayer.playSound();
+           */
 
+          //el.components.sound.playSound();
+          el.play();
+        });
+        document.body.addEventListener("targetLost", e => {
+          console.log("target lost!");
+          var el = this.el;
+          /*
+          var mat = el.getAttribute('id');
+          el.removeAttribute('material');
+          el.setAttribute('material', {
+            shader: "gif",
+            src: "#" + mat,
+            autoplay: "false"
+          });
+           */
+          el.pause();
 
-      });
+        });
+      }
 
+    });
+
+    // clickable
+    AFRAME.registerComponent("play-on-click", {
+
+      init: function() {
+        var mySoundPlayer = document.querySelector('#soundPlayer');
+        var clicked = new Boolean(false);
+        var el = this.el;
+        var source = el.getAttribute('id');
+
+        console.log("clicked ist " + clicked);
+
+        document.body.addEventListener("click", e => {
+
+          console.log("clicked ist " + clicked);
+
+          el.setAttribute('material', {
+            shader: "gif",
+            autoplay: "true"
+          });
+
+          mySoundPlayer.setAttribute('sound', {
+            src: "#" + source + "Sound"
+          })
+
+          el.play();
+          mySoundPlayer.components.sound.playSound();
+          clicked = true;
+          console.log("clicked ist " + clicked);
+
+        });
+        document.body.addEventListener("targetFound", e => {
+          console.log("detected!");
+          if(clicked == true) {
+
+            mySoundPlayer.components.sound.playSound();
+            el.play();
+          }
+
+        });
+        document.body.addEventListener("targetLost", e => {
+          console.log("target lost!");
+          el.pause();
+          mySoundPlayer.components.sound.stopSound();
+
+        });
+      }
     });
   </script>
 </head>
@@ -52,7 +124,7 @@
     <img id="lovers" src="src/gifs/8406A.gif" />
 
     <!-- SOUNDS -->
-    <audio id="loversSound" class="clickable" src="src/sound/wee-sound-effect.mp3" preload="auto" ></audio>
+    <audio id="loversSound" src="src/sound/wee-sound-effect.mp3" preload="auto" ></audio>
 
     <!-- GLTF -->
     <a-asset-item id="confetti" src="src/models/imported_mp4_ballon_2.gltf"></a-asset-item>
@@ -62,7 +134,7 @@
   </a-assets>
 
   <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="far: ${customFields.libVersion}; objects: .clickable" ></a-camera>
-  <a-entity id="soundPlayer" sound="src: #change; loop: true;" play-on-click ></a-entity>
+  <a-entity id="soundPlayer" class="clickable" sound="src: #change; loop: true;" ></a-entity>
 
   <a-entity id="example-target"  mindar-image-target="targetIndex: 0" >
     <!-- Control mp4 with click -->
@@ -83,121 +155,6 @@
   </a-entity>
 
 </a-scene>
-
-
-
-<script>
-  // detect
-  AFRAME.registerComponent("detect-sound", {
-    init: function() {
-      document.body.addEventListener("targetFound", e => {
-        console.log("detected!");
-        var el = this.el;
-        /*
-        //el.removeAttribute('material');
-        el.setAttribute('material', {
-          shader: "gif",
-          autoplay: "true"
-        });
-
-        var soundPlayer = el.getAttribute('sound');
-        console.log(soundPlayer);
-        soundPlayer.playSound();
-         */
-
-        el.components.sound.playSound();
-      });
-    }
-
-  });
-
-  AFRAME.registerComponent("detect-target", {
-    init: function() {
-      document.body.addEventListener("targetFound", e => {
-        console.log("detected!");
-        var el = this.el;
-        //el.removeAttribute('material');
-        el.setAttribute('material', {
-          shader: "gif",
-          autoplay: "true"
-        });
-        /*
-        var soundPlayer = el.getAttribute('sound');
-        console.log(soundPlayer);
-        soundPlayer.playSound();
-         */
-
-        el.components.sound.playSound();
-        el.play();
-      });
-      document.body.addEventListener("targetLost", e => {
-        console.log("target lost!");
-        var el = this.el;
-        /*
-        var mat = el.getAttribute('id');
-        el.removeAttribute('material');
-        el.setAttribute('material', {
-          shader: "gif",
-          src: "#" + mat,
-          autoplay: "false"
-        });
-         */
-        el.pause();
-
-      });
-    }
-
-  });
-
-  // clickable
-  AFRAME.registerComponent("play-on-click", {
-
-    init: function() {
-      var mySoundPlayer = document.querySelector('#soundPlayer');
-      var clicked = new Boolean(false);
-      var el = this.el;
-      var source = el.getAttribute('id');
-
-      console.log("clicked ist " + clicked);
-
-      document.body.addEventListener("click", e => {
-
-        console.log("clicked ist " + clicked);
-
-        el.setAttribute('material', {
-          shader: "gif",
-          autoplay: "true"
-        });
-
-        mySoundPlayer.setAttribute('sound', {
-          src: "#" + source + "Sound"
-        })
-
-        el.play();
-        mySoundPlayer.components.sound.playSound();
-        clicked = true;
-        console.log("clicked ist " + clicked);
-
-      });
-      document.body.addEventListener("targetFound", e => {
-        console.log("detected!");
-        if(clicked == true) {
-
-          mySoundPlayer.components.sound.playSound();
-          el.play();
-        }
-
-      });
-      document.body.addEventListener("targetLost", e => {
-        console.log("target lost!");
-        el.pause();
-        mySoundPlayer.components.sound.stopSound();
-
-      });
-    }
-  });
-
-</script>
 
 </body>
 </html>
